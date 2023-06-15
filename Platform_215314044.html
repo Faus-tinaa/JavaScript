@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Formulir Input</title>
+    <style>
+      /* CSS to hide the elements */
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="form">
+      <label for="name">Nama:</label>
+      <input type="text" id="name" name="name" /><br /><br />
+      <label for="pilihan">Jumlah Pilihan:</label>
+      <input type="number" id="pilihan" name="pilihan" min="1" /><br /><br />
+      <input type="button" value="OK" onclick="submitForm()" />
+      <div id="teks-tampilan"></div>
+      <div id="teks-tampilan2"></div>
+    </div>
+    <div id="final-teks"></div>
+    <script>
+      function submitForm() {
+        const pilihan = document.getElementById("pilihan").value;
+
+        // Periksa apakah jumlah pilihan valid
+        if (pilihan < 1) {
+          alert("Jumlah pilihan harus lebih besar dari 0");
+          return;
+        }
+
+        // Buat inputan teks tampilan sesuai dengan jumlah pilihan
+        let teksTampilan = "";
+        for (let i = 1; i <= pilihan; i++) {
+          teksTampilan += `<label for="teks${i}">Pilihan ${i}:</label>`;
+          teksTampilan += `<input type="text" id="teks${i}" name="teks${i}"><br><br>`;
+        }
+
+        // Perbarui tampilan halaman dengan inputan teks tampilan
+        const teksTampilanDiv = document.getElementById("teks-tampilan");
+        teksTampilanDiv.innerHTML = teksTampilan;
+
+        //buat button perintah memilih atau opsi
+        var button = document.createElement("button");
+        button.innerHTML = "Ok";
+
+        //fungsi untuk button perintah memilik atau opsi
+        button.onclick = function () {
+          let teksTampilan2 = "";
+          teksTampilan2 += `<p>Please Select Your choice</p>`;
+          const pilihan = document.getElementById("pilihan").value;
+          for (let i = 1; i <= pilihan; i++) {
+            let value = document.getElementById(`teks${i}`).value;
+            teksTampilan2 += `<input type="radio" id="option${i}" name="choice" value="${value}">`;
+            teksTampilan2 += `<label for="option${i}">${value}</label><br>`;
+          }
+
+          //cetak tulisan di html
+          const teksTampilanDiv2 = document.getElementById("teks-tampilan2");
+          teksTampilanDiv2.innerHTML = teksTampilan2;
+
+          //buat lagi button untuk membuat tulisan paragraph di akhir
+          var button2 = document.createElement("button");
+          button2.innerHTML = "Ok";
+
+          //fungsi untuk button pembuatan tulisan paragraph di akhir
+          button2.onclick = function () {
+            let finalTampilan = "";
+            const pilihan = document.getElementById("pilihan").value;
+            const name = document.getElementById("name").value;
+            finalTampilan = `<p>Hallo, nama saya ${name}, saya mempunyai sejumlah ${pilihan} pilihan yaitu`;
+            for (let i = 1; i <= pilihan; i++) {
+              let value = document.getElementById(`teks${i}`).value;
+              finalTampilan += ` ${value}, `;
+            }
+            const opsiYangDipilih = document.querySelector('input[name="choice"]:checked');
+            const valueYangDidapat = opsiYangDipilih.value;
+            finalTampilan += ` dan saya memilih ${valueYangDidapat} </p>`;
+            var form = document.getElementById("form");
+            form.classList.add("hidden");
+
+            //mencetak semua data ke dalam id final-teks
+            const finalTampilanDiv = document.getElementById("final-teks");
+            finalTampilanDiv.innerHTML = finalTampilan;
+          };
+          teksTampilanDiv2.appendChild(button2);
+        };
+        teksTampilanDiv.appendChild(button);
+      }
+    </script>
+  </body>
+</html>
